@@ -1,8 +1,14 @@
 package test;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 import entity.EntityTemplate;
 import freemarker.template.Configuration;
@@ -143,14 +149,74 @@ public class CommonCodeGenerator {
 //        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"configTemplate.ftl","D:\\"+entitySimpleName+"-comomCfg.txt");
 
         }
+
+
+		private static String mainProjectRootDir;
+		private static String daoProjectRootDir;
+        
+   	 public static List<EntityTemplate> initEntityTemplate(String ... simpleNames ) throws Exception{
+   		 if ( simpleNames == null || simpleNames.length ==0) {
+   			 System.out.println(" 无simpleNames 。。。。。。。。。。。");
+   			 return Collections.EMPTY_LIST;
+   		 }
+   		 String filePath = "";
+   		 Properties props = new Properties();
+	     InputStream in = new BufferedInputStream (CommonCodeGenerator.class.getClassLoader().getResourceAsStream(filePath));
+	     props.load(in);
+	     
+	     mainProjectRootDir = props.getProperty ("main.project.root.dir");
+	     daoProjectRootDir = props.getProperty ("dao.project.root.dir");
+	     String entityPackageNameOfDaoProject = props.getProperty ("entity.package.name.of.dao.project");
+	     String entityPackageNameOfMainProject = props.getProperty ("entity.package.name.of.main.project");
+	     String modelName = props.getProperty ("model.name");
+	     String daoServiceCode = props.getProperty ("dao.service.code");
+	     String daoPackageName = props.getProperty ("entity.dao.package.name");
+	     String daoServicePackageName = props.getProperty ("entity.dao.service.package.name");
+	     String serviceClientPackageName = props.getProperty ("entity.service.client.package.name");
+	     String versionSuffix = props.getProperty ("version.suffix");
+	     
+	     EntityTemplate entityTemplate = null;
+	     List<EntityTemplate> list = new ArrayList<EntityTemplate>(simpleNames.length);
+   		 for (String simpleName : simpleNames) {
+   			 
+   			entityTemplate = new EntityTemplate();
+   			entityTemplate.setVersionSuffix(versionSuffix);
+   			entityTemplate.setModelName(modelName);
+   			entityTemplate.setServiceToken(daoServiceCode);
+   			
+   			String entitySimpleNameFirstLowerCase = firstCharacterToLowerCase(simpleName);
+   			entityTemplate.setEntitySimpleNameFirstLowerCase(entitySimpleNameFirstLowerCase);
+   			entityTemplate.setEntityPackageDao(entityPackageNameOfDaoProject);
+   			entityTemplate.setEntityPackageMain(entityPackageNameOfMainProject);
+   		
+			entityTemplate.setEntityDaoPackageName(daoPackageName);
+			entityTemplate.setEntityDaoServicePackageName(daoServicePackageName);
+			entityTemplate.setEntityServiceClientPackageName(serviceClientPackageName);
+			
+			list.add(entityTemplate);
+   		 }
+   		 return list;
+   	 }
+   	 
     
         public static void main(String[] args) {
         	
-//        	generate("com.tomtop.application.orm.WishShippingCodeRules");
-//        	generate("com.tomtop.application.orm.WishShippingCodeGroups");
-//        	generate("com.tomtop.application.orm.WishCountryToErpCountry");
-        	generate("WishAccountServerConfig");
+//        	generate("WishAccountServerConfig");
+        	try {
+        		String [] simpleNames ={"",""};
+				List<EntityTemplate> entityTemplateList = initEntityTemplate(simpleNames);
+				if(null == entityTemplateList ) {
+					return ;
+				}
+				for (EntityTemplate entityTemplate : entityTemplateList) {
+					
+				}
+				
         	
+        	} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 
         
