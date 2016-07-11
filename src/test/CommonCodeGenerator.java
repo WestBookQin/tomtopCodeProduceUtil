@@ -103,25 +103,22 @@ public class CommonCodeGenerator {
         	
         }
         
-        public static void generate(String entityFullName) {
+        public static void generate(String entitySimpleName) {
         	EntityTemplate entityTemplate = new EntityTemplate();
         	// 实体的包名和类名
 //        	 String entityFullName = "com.tomtop.application.orm.WishStockShippingCode";
         	 
-        	 String entityPackage = getEntityPackageName(entityFullName);
-        	 String entitySimpleName = getEntitySimpleName(entityFullName);
         	 String entitySimpleNameFirstLowerCase = firstCharacterToLowerCase(entitySimpleName);
         	 
-        	 entityTemplate.setEntityFullName(entityFullName);
-        	 entityTemplate.setEntityPackageDao(entityPackage);
+        	 entityTemplate.setEntityPackageDao("com.tomtop.application.orm");
         	 entityTemplate.setEntityPackageMain("com.tomtop.application.orm.sale");
         	 entityTemplate.setEntitySimpleName(entitySimpleName);
         	 entityTemplate.setEntitySimpleNameFirstLowerCase(entitySimpleNameFirstLowerCase);
         	 
         	 entityTemplate.setModelName("sale");
         	 entityTemplate.setServiceToken("WISH_DAO");
-        	 String entityDaoPackageName = "com.tomtop.application.wish.dao";          
-        	 String entityDaoServicePackageName = "com.tomtop.application.wish.service";   
+        	 String entityDaoPackageName = "com.tomtop.application.dao.wish";          
+        	 String entityDaoServicePackageName = "com.tomtop.application.dao.service.wish";   
         	 String entityServiceClientPackageName= "com.tomtop.application.service.sale.wish";
         	 String editPackageName = "com.tomtop.application.action.mongo.sale.wish";
         	 String popupPackageName="com.tomtop.application.action.mongo.sale.wish";
@@ -136,13 +133,14 @@ public class CommonCodeGenerator {
         	 entityTemplate.setEditPackageName(editPackageName);
         	 entityTemplate.setPopupPackageName(popupPackageName);
         	 entityTemplate.setMainPackageName(mainPackageName);
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"daoServiceTemplate.ftl","D:\\"+entitySimpleName+"Service.java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"daoTemplate.ftl","D:\\"+entitySimpleName+"Dao.java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"servicClientTemplate.ftl","D:\\"+entitySimpleName+"DaoClient.java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"mainPage.ftl","D:\\Manage"+entitySimpleName+".java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"editPage.ftl","D:\\Edit"+entitySimpleName+".java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"popupPage.ftl","D:\\Popup"+entitySimpleName+".java");
-        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"configTemplate.ftl","D:\\"+entitySimpleName+"-comomCfg.txt");
+        	 entityTemplate.setVersionSuffix("_V1");
+        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"daoServiceTemplate.ftl","D:\\"+entityTemplate.getServiceClassFileName());
+        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"daoTemplate.ftl","D:\\"+entityTemplate.getDaoClassFileName());
+        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"servicClientTemplate.ftl","D:\\"+entityTemplate.getServiceClientClassFileName());
+//        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"mainPage.ftl","D:\\Manage"+entitySimpleName+".java");
+//        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"editPage.ftl","D:\\Edit"+entitySimpleName+".java");
+//        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"popupPage.ftl","D:\\Popup"+entitySimpleName+".java");
+//        	 doIt("E:\\worksp\\common-code-generator\\template",entityTemplate,"configTemplate.ftl","D:\\"+entitySimpleName+"-comomCfg.txt");
 
         }
     
@@ -150,7 +148,8 @@ public class CommonCodeGenerator {
         	
 //        	generate("com.tomtop.application.orm.WishShippingCodeRules");
 //        	generate("com.tomtop.application.orm.WishShippingCodeGroups");
-        	generate(" com.tomtop.application.orm.WishCountryToErpCountry");
+//        	generate("com.tomtop.application.orm.WishCountryToErpCountry");
+        	generate("WishAccountServerConfig");
         	
         }
 

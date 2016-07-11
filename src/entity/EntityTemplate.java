@@ -6,15 +6,16 @@ package entity;
  */
 public class EntityTemplate {
 
-	// BaseMongoDao BaseService ServiceClient 的 包名和 简单类名
-	private String baseMongoDaoPackageName = "com.tomtop.application.wish.dao";
+	private static final String SUFFIX_DOT_JAVA = ".java";
+	// BaseMongoDao BaseService DaoServiceClient 的 包名和 简单类名
+	private String baseMongoDaoPackageName = "com.tomtop.application.base.dao";
 	private String baseMongoDaoSimpleName = "BaseMongoDao";
-	private String baseServicePackageName = "com.tomtop.application.wish.service";
+	private String baseServicePackageName = "com.tomtop.application.base.service";
 	private String baseServiceSimpleName = "BaseService";
-	private String serviceClientPackageName = "com.tomtop.application.service.sale.wish";
-	private String serviceClientSimpleName = "ServiceClient";
-	private String serviceCodeAnnotationFullName = "com.tomtop.application.service.sale.wish.ServiceCode";
-	private String modelNameAnnotationFullName = "com.tomtop.application.service.sale.wish.ModelName";
+	private String baseDaoServiceClientPackageName = "com.tomtop.application.base.service.client";
+	private String baseDaoServiceClientSimpleName = "DaoServiceClient";
+	private String serviceCodeAnnotationFullName = "com.tomtop.application.base.service.client.ServiceCode";
+	private String modelNameAnnotationFullName = "com.tomtop.application.base.service.client.ModelName";
 
 	// 是否需要引入BaseMongoDao BaseService ServiceClient
 	private boolean needImportBaseMongoDao;
@@ -22,15 +23,15 @@ public class EntityTemplate {
 	private boolean needImportServiceClient;
 
 	// 实体的包名和类名
-	private String entityFullName;
-	private String entitySimpleName;
-	private String entityPackageMain;
-	private String entityPackageDao;
+//	private String entityFullName;
+	private String entitySimpleName; // 
+	private String entityPackageMain;// main项目的实体包名
+	private String entityPackageDao;// dao项目的实体包名
 	private String primaryKeyType = "Integer";
 	// 实体名称首字母小写
 	private String entitySimpleNameFirstLowerCase;
 
-	// 实体的dao Service 和 ServiceClient的包名
+	// 实体的Dao、 Service 和 ServiceClient的包名
 	private String entityDaoPackageName;
 	private String entityDaoServicePackageName;
 	private String entityServiceClientPackageName;
@@ -44,9 +45,46 @@ public class EntityTemplate {
 	// 模块名称 和 环境变量的ServiceToken
 	private String modelName;
 	private String serviceToken;
+	
+	// 版本后缀
+	private String versionSuffix = "";
 
+	private String mainProjectRootDir;
+	private String daoProjectRootDir;
 	
 	
+	public void setServiceCodeAnnotationFullName(String serviceCodeAnnotationFullName) {
+		this.serviceCodeAnnotationFullName = serviceCodeAnnotationFullName;
+	}
+
+	public void setModelNameAnnotationFullName(String modelNameAnnotationFullName) {
+		this.modelNameAnnotationFullName = modelNameAnnotationFullName;
+	}
+
+	public String getMainProjectRootDir() {
+		return mainProjectRootDir;
+	}
+
+	public void setMainProjectRootDir(String mainProjectRootDir) {
+		this.mainProjectRootDir = mainProjectRootDir;
+	}
+
+	public String getDaoProjectRootDir() {
+		return daoProjectRootDir;
+	}
+
+	public void setDaoProjectRootDir(String daoProjectRootDir) {
+		this.daoProjectRootDir = daoProjectRootDir;
+	}
+
+	public String getVersionSuffix() {
+		return versionSuffix;
+	}
+
+	public void setVersionSuffix(String versionSuffix) {
+		this.versionSuffix = versionSuffix;
+	}
+
 	public String getEditPackageName() {
 		return editPackageName;
 	}
@@ -87,14 +125,6 @@ public class EntityTemplate {
 		return baseServiceSimpleName;
 	}
 
-	public String getServiceClientPackageName() {
-		return serviceClientPackageName;
-	}
-
-	public String getServiceClientSimpleName() {
-		return serviceClientSimpleName;
-	}
-
 	public String getServiceCodeAnnotationFullName() {
 		return serviceCodeAnnotationFullName;
 	}
@@ -125,14 +155,6 @@ public class EntityTemplate {
 
 	public void setNeedImportServiceClient(boolean needImportServiceClient) {
 		this.needImportServiceClient = needImportServiceClient;
-	}
-
-	public String getEntityFullName() {
-		return entityFullName;
-	}
-
-	public void setEntityFullName(String entityFullName) {
-		this.entityFullName = entityFullName;
 	}
 
 	public String getEntitySimpleName() {
@@ -215,5 +237,65 @@ public class EntityTemplate {
 		this.serviceToken = serviceToken;
 	}
 
+	
+	//==================================
+	
+	public String getBaseDaoServiceClientPackageName() {
+		return baseDaoServiceClientPackageName;
+	}
+
+	public void setBaseDaoServiceClientPackageName(String baseDaoServiceClientPackageName) {
+		this.baseDaoServiceClientPackageName = baseDaoServiceClientPackageName;
+	}
+
+	public String getBaseDaoServiceClientSimpleName() {
+		return baseDaoServiceClientSimpleName;
+	}
+
+	public void setBaseDaoServiceClientSimpleName(String baseDaoServiceClientSimpleName) {
+		this.baseDaoServiceClientSimpleName = baseDaoServiceClientSimpleName;
+	}
+
+	public void setBaseMongoDaoPackageName(String baseMongoDaoPackageName) {
+		this.baseMongoDaoPackageName = baseMongoDaoPackageName;
+	}
+
+	public void setBaseMongoDaoSimpleName(String baseMongoDaoSimpleName) {
+		this.baseMongoDaoSimpleName = baseMongoDaoSimpleName;
+	}
+
+	public void setBaseServicePackageName(String baseServicePackageName) {
+		this.baseServicePackageName = baseServicePackageName;
+	}
+
+	public void setBaseServiceSimpleName(String baseServiceSimpleName) {
+		this.baseServiceSimpleName = baseServiceSimpleName;
+	}
+
+	public String getDaoClassName() {
+		return entitySimpleName+"Dao" +this.versionSuffix;
+	}
+	public String getServiceClassName() {
+		
+		return entitySimpleName+"Service" +this.versionSuffix;
+	}
+	public String getServiceClientClassName() {
+		
+//		return entitySimpleName+"DaoClient" +this.versionSuffix;
+		return entitySimpleName+"DaoClient";
+	}
+
+	public String getDaoClassFileName() {
+		return entitySimpleName+"Dao" +this.versionSuffix+SUFFIX_DOT_JAVA;
+	}
+	public String getServiceClassFileName() {
+		
+		return entitySimpleName+"Service" +this.versionSuffix+SUFFIX_DOT_JAVA;
+	}
+	public String getServiceClientClassFileName() {
+		
+//		return entitySimpleName+"DaoClient" +this.versionSuffix+SUFFIX_DOT_JAVA;
+		return entitySimpleName+"DaoClient"+SUFFIX_DOT_JAVA;
+	}
 
 }
