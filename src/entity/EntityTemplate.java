@@ -17,13 +17,7 @@ public class EntityTemplate {
 	private String serviceCodeAnnotationFullName = "com.tomtop.application.base.service.client.ServiceCode";
 	private String modelNameAnnotationFullName = "com.tomtop.application.base.service.client.ModelName";
 
-	// 是否需要引入BaseMongoDao BaseService ServiceClient
-	private boolean needImportBaseMongoDao;
-	private boolean needImportBaseService;
-	private boolean needImportServiceClient;
-
 	// 实体的包名和类名
-//	private String entityFullName;
 	private String entitySimpleName; // 
 	private String entityPackageMain;// main项目的实体包名
 	private String entityPackageDao;// dao项目的实体包名
@@ -49,9 +43,6 @@ public class EntityTemplate {
 	// 版本后缀
 	private String versionSuffix = "";
 
-	private String mainProjectRootDir;
-	private String daoProjectRootDir;
-	
 	
 	public void setServiceCodeAnnotationFullName(String serviceCodeAnnotationFullName) {
 		this.serviceCodeAnnotationFullName = serviceCodeAnnotationFullName;
@@ -59,22 +50,6 @@ public class EntityTemplate {
 
 	public void setModelNameAnnotationFullName(String modelNameAnnotationFullName) {
 		this.modelNameAnnotationFullName = modelNameAnnotationFullName;
-	}
-
-	public String getMainProjectRootDir() {
-		return mainProjectRootDir;
-	}
-
-	public void setMainProjectRootDir(String mainProjectRootDir) {
-		this.mainProjectRootDir = mainProjectRootDir;
-	}
-
-	public String getDaoProjectRootDir() {
-		return daoProjectRootDir;
-	}
-
-	public void setDaoProjectRootDir(String daoProjectRootDir) {
-		this.daoProjectRootDir = daoProjectRootDir;
 	}
 
 	public String getVersionSuffix() {
@@ -131,30 +106,6 @@ public class EntityTemplate {
 
 	public String getModelNameAnnotationFullName() {
 		return modelNameAnnotationFullName;
-	}
-
-	public boolean isNeedImportBaseMongoDao() {
-		return needImportBaseMongoDao;
-	}
-
-	public void setNeedImportBaseMongoDao(boolean needImportBaseMongoDao) {
-		this.needImportBaseMongoDao = needImportBaseMongoDao;
-	}
-
-	public boolean isNeedImportBaseService() {
-		return needImportBaseService;
-	}
-
-	public void setNeedImportBaseService(boolean needImportBaseService) {
-		this.needImportBaseService = needImportBaseService;
-	}
-
-	public boolean isNeedImportServiceClient() {
-		return needImportServiceClient;
-	}
-
-	public void setNeedImportServiceClient(boolean needImportServiceClient) {
-		this.needImportServiceClient = needImportServiceClient;
 	}
 
 	public String getEntitySimpleName() {
