@@ -1,0 +1,2 @@
+
+	<bean id="wishTemplateGroupDaoClient" class="com.tomtop.application.service.sale.wish.WishTemplateGroupDaoClient"/>
