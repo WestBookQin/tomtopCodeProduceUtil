@@ -6,11 +6,15 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import entity.EntityTemplate;
+import entity.EntityVar;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -23,8 +27,10 @@ public class CommonCodeGenerator {
 	public static void main(String[] args) {
 
 		try {
-			String[] simpleNames = { "MyWishList", "WishAcceptableAttributeValue" };
-			List<EntityTemplate> entityTemplateList = initEntityTemplate(simpleNames);
+			List<EntityVar> entityVars = new ArrayList<>();
+//			entityVars.add(new EntityVar("WishApiConfig", "Long"));
+//			entityVars.add(new EntityVar("WishTicket"));
+			List<EntityTemplate> entityTemplateList = initEntityTemplate(entityVars);
 			if (null == entityTemplateList) {
 				return;
 			}
@@ -38,6 +44,10 @@ public class CommonCodeGenerator {
 				doIt(templateFilePath, entityTemplate, "daoServiceTemplate.ftl", getAbsoluteServiceClassFileName(entityTemplate));
 				doIt(templateFilePath, entityTemplate, "servicClientTemplate.ftl", getAbsoluteClientClassFileName(entityTemplate));
 			}
+			// produce dao client bean conf
+			Map map = new HashMap();
+			map.put("entityTemplateList", entityTemplateList);
+			doIt(templateFilePath, map, "client-bean-conf.ftl", "config-output/client-bean-conf.text");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,9 +121,9 @@ public class CommonCodeGenerator {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<EntityTemplate> initEntityTemplate(String... simpleNames) throws Exception {
-		if (simpleNames == null || simpleNames.length == 0) {
-			log("initEntityTemplate ：需要传入实体名称！！！");
+	public static List<EntityTemplate> initEntityTemplate(Collection< EntityVar> entityVars) throws Exception {
+		if (entityVars == null || entityVars.size() == 0) {
+			log("initEntityTemplate ：需要传入实体Var！！！");
 			return Collections.EMPTY_LIST;
 		}
 		log("start to laod configeration properties");
@@ -138,18 +148,24 @@ public class CommonCodeGenerator {
 		String daoServicePackageName = props.getProperty("entity.dao.service.package.name");
 		String serviceClientPackageName = props.getProperty("entity.service.client.package.name");
 		String versionSuffix = props.getProperty("version.suffix");
+		if (null == versionSuffix ) {
+			versionSuffix = "";
+		}
 		log("Loading configuration complete >~<!");
 		EntityTemplate entityTemplate = null;
-		List<EntityTemplate> list = new ArrayList<EntityTemplate>(simpleNames.length);
-		for (String simpleName : simpleNames) {
+		List<EntityTemplate> list = new ArrayList<EntityTemplate>(entityVars.size());
+		for (EntityVar entityVar : entityVars) {
 
 			entityTemplate = new EntityTemplate();
 			entityTemplate.setVersionSuffix(versionSuffix);
 			entityTemplate.setModelName(modelName);
 			entityTemplate.setServiceToken(daoServiceCode);
 
-			String entitySimpleNameFirstLowerCase = firstCharacterToLowerCase(simpleName);
-			entityTemplate.setEntitySimpleName(simpleName);
+			String entitySimpleNameFirstLowerCase = firstCharacterToLowerCase(entityVar.getEntitySimpleName());
+			entityTemplate.setEntitySimpleName(entityVar.getEntitySimpleName());
+			if (null != entityVar.getPrimaryKeyType()) { // default Long
+				entityTemplate.setPrimaryKeyType(entityVar.getPrimaryKeyType());
+			}
 			entityTemplate.setEntitySimpleNameFirstLowerCase(entitySimpleNameFirstLowerCase);
 			entityTemplate.setEntityPackageDao(entityPackageNameOfDaoProject);
 			entityTemplate.setEntityPackageMain(entityPackageNameOfMainProject);

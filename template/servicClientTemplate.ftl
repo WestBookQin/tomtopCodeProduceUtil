@@ -9,8 +9,6 @@ import ${modelNameAnnotationFullName};
 @ModelName("${modelName}")
 public class ${entitySimpleName}DaoClient extends ${baseDaoServiceClientSimpleName}<${entitySimpleName}, ${primaryKeyType}> {
 
-	private static final long serialVersionUID = 1L;
-
 }
 <#--
 package com.tomtop.application.service.sale.wish;

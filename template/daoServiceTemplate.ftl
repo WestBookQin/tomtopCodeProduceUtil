@@ -12,13 +12,14 @@ import ${entityDaoPackageName}.${entitySimpleName}Dao${versionSuffix};
 @Controller
 @RequestMapping("${modelName}/${entitySimpleName}")
 public class ${entitySimpleName}Service${versionSuffix} extends ${baseServiceSimpleName}<${entitySimpleName}, ${primaryKeyType}> {
-	
+	<#--
 	//注入dao时，指定类型和名称
 	@Autowired
 	@Qualifier("${entitySimpleNameFirstLowerCase}Dao${versionSuffix}")
 	public void setCommonDaoInter(${entitySimpleName}Dao${versionSuffix} ${entitySimpleNameFirstLowerCase}Dao) {
 		super.setCommonDaoInter(${entitySimpleNameFirstLowerCase}Dao);
 	}
+	-->
 }
 <#--
 package com.tomtop.application.dao.service.wish;
@@ -36,12 +37,5 @@ import com.tomtop.application.orm.MyWishList;
 @RequestMapping("sale/MyWishList")
 public class MyWishListService_V1 extends BaseService<MyWishList, Integer>{
 
-		//注入dao时，指定类型和名称
-		@Autowired
-		@Qualifier("myWishListDao_V1")
-		public void setCommonDaoInter(MyWishListDao_V1 myWishListDao_V1) {
-			super.setCommonDaoInter(myWishListDao_V1);
-		}
-		
 }
 -->

@@ -21,7 +21,8 @@ public class EntityTemplate {
 	private String entitySimpleName; // 
 	private String entityPackageMain;// main项目的实体包名
 	private String entityPackageDao;// dao项目的实体包名
-	private String primaryKeyType = "Integer";
+	private String primaryKeyType = "Long";
+//	private String primaryKeyType = "Long";
 	// 实体名称首字母小写
 	private String entitySimpleNameFirstLowerCase;
 
